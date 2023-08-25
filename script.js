@@ -1,6 +1,5 @@
 const recordButton = document.getElementById('recordButton');
 const audioPreview = document.getElementById('audioPreview');
-
 let mediaRecorder;
 let audioChunks = [];
 
@@ -37,14 +36,10 @@ mediaRecorder.addEventListener('stop', () => {
     audioPreview.src = audioUrl;
 
     // Send audioBlob to the server
-    sendAudioToServer(audioBlob);
-});
-
-function sendAudioToServer(blob) {
     const formData = new FormData();
-    formData.append('audio', blob);
+    formData.append('audio', audioBlob);
 
-    fetch('upload.php', {
+    fetch('/upload', {
         method: 'POST',
         body: formData
     }).then(response => {
@@ -52,4 +47,4 @@ function sendAudioToServer(blob) {
     }).catch(error => {
         console.error('Error uploading audio:', error);
     });
-}
+});
