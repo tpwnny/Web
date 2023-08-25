@@ -9,59 +9,59 @@ html_template = """
 <head>
     <title>Audio Processing App</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f5f5f5;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        form {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        input[type="file"] {
-            display: none;
-        }
-        #upload_button {
-            background-color: #007bff;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
+        /* Your CSS styles here */
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-    const fileInput = document.querySelector("#audio_file");
-    const uploadButton = document.querySelector("#upload_button");
+            const fileInput = document.querySelector("#audio_file");
+            const uploadButton = document.querySelector("#upload_button");
+            const submitButton = document.querySelector("#submit_button");
 
-    uploadButton.addEventListener("click", function () {
-        fileInput.click();
-    });
+            uploadButton.addEventListener("click", function () {
+                fileInput.click();
+            });
 
-    fileInput.addEventListener("change", function () {
-        const fileName = fileInput.value.split("\\").pop();
-        uploadButton.innerHTML = fileName ? fileName : "Choose a file";
-    });
+            fileInput.addEventListener("change", function () {
+                const fileName = fileInput.value.split("\\").pop();
+                uploadButton.innerHTML = fileName ? fileName : "Choose a file";
+            });
 
-    // Handle touch events for mobile devices
-    uploadButton.addEventListener("touchstart", function (event) {
-        event.preventDefault();
-        fileInput.click();
-    });
-});
+            uploadButton.addEventListener("touchstart", function (event) {
+                event.preventDefault();
+                fileInput.click();
+            });
 
+            submitButton.addEventListener("click", function () {
+                if (fileInput.files.length === 0) {
+                    alert("Please choose a file before submitting.");
+                } else {
+                    // Disable submit button to prevent multiple submissions
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = "Uploading...";
+                    
+                    // Create FormData object to send the file
+                    const formData = new FormData();
+                    formData.append("audio_file", fileInput.files[0]);
+                    
+                    // Send the file using Fetch API or XMLHttpRequest
+                    fetch("{{ url_for('upload') }}", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(result => {
+                        alert(result);
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = "Upload";
+                    })
+                    .catch(error => {
+                        alert("An error occurred: " + error.message);
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = "Upload";
+                    });
+                }
+            });
+        });
     </script>
 </head>
 <body>
@@ -69,7 +69,7 @@ html_template = """
     <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
         <input type="file" id="audio_file" name="audio_file" accept=".wav, .mp3">
         <button type="button" id="upload_button">Choose a file</button>
-        <button type="submit">Upload</button>
+        <button type="button" id="submit_button">Upload</button>
     </form>
 </body>
 </html>
