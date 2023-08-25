@@ -12,6 +12,18 @@ html_template = """
         /* Your CSS styles here */
     </style>
     <script>
+  
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.querySelector("#audio_file");
+            const uploadButton = document.querySelector("#upload_button");
+            
+            uploadButton.addEventListener("click", function () {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener("change", function () {
+                const fileName = fileInput.value.split("\\").pop();
+                uploadButton.innerHTML = fileName ? fileName : "Choose a file
         document.addEventListener("DOMContentLoaded", function () {
             const fileInput = document.querySelector("#audio_file");
             const uploadButton = document.querySelector("#upload_button");
