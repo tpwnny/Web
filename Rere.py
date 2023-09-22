@@ -1,5 +1,5 @@
 import os
-os.environ["OPENAI_API_KEY"] = "PASTE THE OPENAI API KEY HERE"
+os.environ["OPENAI_API_KEY"] = "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"
 
 from codeinterpreterapi import CodeInterpreterSession
 
