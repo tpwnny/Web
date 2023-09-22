@@ -3,7 +3,9 @@ os.environ["OPENAI_API_KEY"] = "PASTE THE OPENAI API KEY HERE"
 
 from codeinterpreterapi import CodeInterpreterSession
 
+from codeinterpreterapi.config import settings
 
+settings.VERBOSE = True
 async def main():
     # create a session
     session = CodeInterpreterSession(model="gpt-3.5-turbo")
