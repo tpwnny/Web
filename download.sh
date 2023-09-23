@@ -30,6 +30,40 @@ fi
 
 for m in ${MODEL_SIZE//,/ }
 do
-    # Rest of the script remains the same
-    # ...
+    if [[ $m == "7B" ]]; then
+        SHARD=0
+        MODEL_PATH="llama-2-7b"
+    elif [[ $m == "7B-chat" ]]; then
+        SHARD=0
+        MODEL_PATH="llama-2-7b-chat"
+    elif [[ $m == "13B" ]]; then
+        SHARD=1
+        MODEL_PATH="llama-2-13b"
+    elif [[ $m == "13B-chat" ]]; then
+        SHARD=1
+        MODEL_PATH="llama-2-13b-chat"
+    elif [[ $m == "70B" ]]; then
+        SHARD=7
+        MODEL_PATH="llama-2-70b"
+    elif [[ $m == "70B-chat" ]]; then
+        SHARD=7
+        MODEL_PATH="llama-2-70b-chat"
+    fi
+
+    echo "Downloading ${MODEL_PATH}"
+    mkdir -p ${TARGET_FOLDER}"/${MODEL_PATH}"
+
+    for s in $(seq -f "0%g" 0 ${SHARD})
+    do
+        wget ${PRESIGNED_URL/'*'/"${MODEL_PATH}/consolidated.${s}.pth"} -O ${TARGET_FOLDER}"/${MODEL_PATH}/consolidated.${s}.pth"
+    done
+
+    wget --continue ${PRESIGNED_URL/'*'/"${MODEL_PATH}/params.json"} -O ${TARGET_FOLDER}"/${MODEL_PATH}/params.json"
+    wget --continue ${PRESIGNED_URL/'*'/"${MODEL_PATH}/checklist.chk"} -O ${TARGET_FOLDER}"/${MODEL_PATH}/checklist.chk"
+    echo "Checking checksums"
+    if [ "$CPU_ARCH" = "arm64" ]; then
+      (cd ${TARGET_FOLDER}"/${MODEL_PATH}" && md5 checklist.chk)
+    else
+      (cd ${TARGET_FOLDER}"/${MODEL_PATH}" && md5sum -c checklist.chk)
+    fi
 done
