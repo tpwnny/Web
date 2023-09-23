@@ -36,3 +36,41 @@ transcribed_text, _, _ = translator.predict(<path_to_input_audio>, "asr", <src_l
 # T2TT
 translated_text, _, _ = translator.predict(<input_text>, "t2tt", <tgt_lang>, src_lang=<src_lang>)
 ```
+
+
+```import torchaudio
+import torch
+
+audio_input, _ = torchaudio.load(TEST_AUDIO_PATH) # Load waveform using torchaudio
+
+s2t_model = torch.jit.load("unity_on_device_s2t.ptl") # Load exported S2T model
+
+with torch.no_grad():
+    text = s2t_model(audio_input, tgt_lang=TGT_LANG) # Forward call with tgt_lang specified for ASR or S2TT
+
+print(text) # Show text output
+```
+this
+S2TT, ASR	eng, fra,hin, por, spa
+
+
+
+
+```import torchaudio
+import torch
+
+audio_input, _ = torchaudio.load(TEST_AUDIO_PATH) # Load waveform using torchaudio
+
+s2st_model = torch.jit.load("unity_on_device.ptl")
+
+with torch.no_grad():
+    text, units, waveform = s2st_model(audio_input, tgt_lang=TGT_LANG) # S2ST model also returns waveform
+
+print(text)
+torchaudio.save(f"{OUTPUT_FOLDER}/result.wav", waveform.unsqueeze(0), sample_rate=16000) # Save output waveform to local file
+```
+this
+S2ST, S2TT, ASR	eng, fra, hin, por, spa
+
+
+
