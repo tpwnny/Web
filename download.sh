@@ -6,7 +6,7 @@
 set -e
 
 # Define the URL directly in the script
-PRESIGNED_URL="YOUR_URL_HERE"
+PRESIGNED_URL="https://download.llamameta.net/*?Policy=eyJTdGF0ZW1lbnQiOlt7InVuaXF1ZV9oYXNoIjoidTFzZHA3Y2VoMTlrcHB5Z3d1c2c1ajBsIiwiUmVzb3VyY2UiOiJodHRwczpcL1wvZG93bmxvYWQubGxhbWFtZXRhLm5ldFwvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTY5NTU5MDA3MX19fV19&Signature=lVXZyMAe4Bmx%7EMzBy0V9CskbUTTu%7ErjzyC8eRQIUg8iqDngo7aNiqjdTGLFKfoO2XJuYUHmui7PBCf6PD9HYos2UIYnnbLKSaCWOcLB3DXIe41bEbo40C-RUN2WFM5lWja7V8LmbWo%7Eu1vhM5%7EczMsNZ8oA88zgluTX51xml769pnrpiPsB0NyEkBLxi093B5spzqCXjQCMx5142xJvyoHZUpaOu8HtjyszIzq-6dZi-Op4WqiMSW6FPiykBySneFCx3NYsjp%7EECPQneea-dAvUL-6ox%7EDboKi5PAPvfgxMrt9tWF%7ENag5JC6Cdd06CDSjLwJe7%7ELDZYWYTPogI%7E6Q__&Key-Pair-Id=K15QRJLYKIFSLZ&Download-Request-ID=6739864882773456"
 
 TARGET_FOLDER="."             # where all files should end up
 mkdir -p ${TARGET_FOLDER}
