@@ -1,0 +1,34 @@
+```
+import (LibraryName)
+
+model = lib.load_model("base")
+result = model.transcribe("audio.mp3")
+print(result["text"])
+```
+
+
+
+```
+import (library)
+
+
+model = lib.load_model("base")
+
+# load audio. pad it to fit 30 seconds
+audio = lib.load_audio("audio.mp3")
+audio = lib.pad_or_trim(audio)
+
+# make log-Mel spectrogram
+mel = lib.log_mel_spectrogram(audio).to(model.device)
+
+# detect language
+_, probs = model.detect_language(mel)
+print(f"Detected language: {max(probs, key=probs.get)}")
+
+# decode
+options = lib.DecodingOptions()
+result = lib.decode(model, mel, options)
+
+# recognized text
+print(result.text)
+```
